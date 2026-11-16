@@ -134,9 +134,9 @@ def generate(seed: int = 42, output_file: str = OUTPUT_FILE) -> str:
         writer.writeheader()
         writer.writerows(rows)
 
-print(f"[OK] Wrote {len(rows)} rows -> {output_file}")
+    print(f"[OK] Wrote {len(rows)} rows -> {output_file}")
 
-return output_file
+    return output_file
 
 
 if __name__ == "__main__":
