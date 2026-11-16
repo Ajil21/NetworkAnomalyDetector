@@ -114,10 +114,10 @@ def _ddos_burst_rows(base: datetime, count: int = 50) -> list[dict]:
 # Main
 # ---------------------------------------------------------------------------
 
-def generate(seed: int = 42) -> str:
+def generate(seed: int = 42, output_file: str = OUTPUT_FILE) -> str:
     """Generate sample_traffic.csv and return its path."""
     random.seed(seed)
-    base = datetime(2025, 7, 1, 0, 0, 0)
+    base = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
     rows = [_normal_row(base) for _ in range(NUM_NORMAL_ROWS)]
     rows += _port_scan_rows(base)
@@ -127,14 +127,16 @@ def generate(seed: int = 42) -> str:
     # Sort by timestamp so it looks realistic
     rows.sort(key=lambda r: r["timestamp"])
 
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    with open(OUTPUT_FILE, "w", newline="") as f:
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
+    with open(output_file, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=COLUMNS)
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"[OK] Wrote {len(rows)} rows -> {OUTPUT_FILE}")
-    return OUTPUT_FILE
+print(f"[OK] Wrote {len(rows)} rows -> {output_file}")
+
+return output_file
 
 
 if __name__ == "__main__":
