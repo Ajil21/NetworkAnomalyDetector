@@ -49,7 +49,7 @@ def _normal_row(base: datetime) -> dict:
 
 def _port_scan_rows(base: datetime, count: int = 40) -> list[dict]:
     """One src_ip scanning many dst_ports on a single target in a short burst."""
-    attacker = "10.0.1.99"
+    attacker = random.choice(INTERNAL_IPS)
     target = "203.0.113.50"
     scan_start = base + timedelta(hours=6)  # cluster at hour-6
     rows = []
